@@ -3,6 +3,7 @@ import getProducts from '@/actions/get-products'
 import ProductGallery from '@/components/gallery/product-gallery'
 import ProductList from '@/components/product-list'
 import { Container } from '@/components/ui/container'
+import ProductInfo from '@/components/ui/product-info'
 import React from 'react'
 
 interface ProductPageProps {
@@ -26,8 +27,8 @@ const ProductPage: React.FC<ProductPageProps> = async ({
                         <div>
                             <ProductGallery images={product?.images} />
                         </div>
-                        <div className='mt-10 px-4 sm:px-0  sm:mt-16 lg:mt-0 '>
-                            Product Info
+                        <div className='mt-10 px-2 sm:px-0   md:mt-0'>
+                            <ProductInfo product={product}  />
                         </div>
                     </div>
                     <hr className='my-10' />

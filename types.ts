@@ -21,8 +21,8 @@ interface Product  {
     id:string
     name:string
     images:Image[]
-    colorId:string
-    sizeId:string
+    color:Color
+    size:Size
     category:Category
     isArchived:boolean
     isFeatured:boolean

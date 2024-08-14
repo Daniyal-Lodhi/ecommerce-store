@@ -1,12 +1,14 @@
 'use client'
 
 import Image from "next/image";
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import Iconbutton from "./icon-button";
 import { Expand, ShoppingCart } from "lucide-react";
 import preventHydration from "../hydration-prevention";
 import Currency from "./currency";
 import { useRouter } from "next/navigation";
+import PreviewModal from "../preview-modal";
+import usePreviewModal from "@/hooks/use-preview-modal";
 
 interface productCardProps {
     product: Product
@@ -15,12 +17,22 @@ interface productCardProps {
 const ProductCard: React.FC<productCardProps> = ({
     product
 }) => {
-    
+
     preventHydration();
     const router = useRouter();
+    const previewModal = usePreviewModal();
+
+    const handleClick = () => {
+        router.push(`/product/${product?.id}`)
+    }
+
+    const previewProductModal:MouseEventHandler<HTMLButtonElement> = (event) => {
+        event.stopPropagation();
+        previewModal.onOpen(product);
+    }
     return (
         <>
-            <div className="bg-white border rounded-xl p-3 group cursor-pointer space-y-4 " >
+            <div onClick={handleClick} className="bg-white border rounded-xl p-3 group cursor-pointer space-y-4 " >
                 <div className="aspect-square relative rounded-xl bg-gray-100" >
                     <Image
                         src={product?.images?.[0]?.imageUrl}
@@ -30,9 +42,7 @@ const ProductCard: React.FC<productCardProps> = ({
                     />
                     <div className="absolute flex justify-center gap-x-6 items-center bottom-5 px-6 opacity-0 group-hover:opacity-100 w-full" >
                         <Iconbutton
-                            onclick={() => { 
-                                router.push(`product/${product?.id}`)
-                             }}
+                            onclick={previewProductModal}
                             icon={<Expand
                                 size={20}
                                 className="text-gray-600"

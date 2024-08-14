@@ -4,7 +4,7 @@ import Button from "./ui/button"
 
 
 const NavbarActions = ()=>{
- 
+    
 return(
     <div className="ml-auto flex items-center gap-x-4">
         <Button   >
@@ -13,7 +13,7 @@ return(
             color="white"
             />
             <span className="ml-2 text-white " >
-                0
+                
             </span>
 
         </Button>

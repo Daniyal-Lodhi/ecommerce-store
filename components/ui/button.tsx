@@ -14,6 +14,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
         <button
         className={cn("bg-black flex items-center px-4 py-2 rounded-full w-auto ",className)}
             ref={ref}
+            {...props}
         >
             {children}
         </button>
