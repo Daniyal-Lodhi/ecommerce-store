@@ -17,7 +17,7 @@ export const MainNav: React.FC<mainNavProps> = ({
     const routes = data.map((route) => (
         {
             label: route.name,
-            isActive: pathname === `category/${route.id}`,
+            isActive: pathname === `/category/${route.id}`,
             href: `/category/${route.id}`
         }
     ))
@@ -31,7 +31,7 @@ export const MainNav: React.FC<mainNavProps> = ({
                     <Link href={route.href} 
                     key={route.href}
                     className={`
-                        ${route.isActive ? 'text-black' : 'text-neutral-500'} 
+                        ${route.isActive ? 'text-black font-bold' : 'text-neutral-500'} 
                         transition-colors
                       hover:text-black 
                       font-semibold

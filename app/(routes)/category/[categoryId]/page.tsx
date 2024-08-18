@@ -32,6 +32,7 @@ const CategoryPage: React.FC<CatetgoryPageProps> = async ({
     const queryObj = {
         sizeId:searchParams.sizeId || undefined,
         colorId:searchParams.colorId || undefined,
+        categoryId:category.id
     }
     const products = await getProducts(queryObj);
     return (

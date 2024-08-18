@@ -1,8 +1,6 @@
-import { Updock } from 'next/font/google'
 import toast from 'react-hot-toast'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-
 
 interface CartStorageProps {
     items: Product[]
@@ -11,9 +9,8 @@ interface CartStorageProps {
     removeAll: () => void
 }
 
-export const useBearStore = create(
+const useShoppingCart = create(
     persist<CartStorageProps>(
-        // @ts-ignore
         (set, get) => ({
             items: [],
             addItem: (data: Product) => {
@@ -22,9 +19,10 @@ export const useBearStore = create(
                 if (exisitingItem) {
                     toast("Item Already in Cart")
                 }
-                set({ items: [...get().items,] })
+                else{
+                set({ items: [...get().items,data] })
                 toast.success("Item added to cart")
-
+                }
             },
             removeItem: (ProductId: string) => {
                 set({ items: [...get().items.filter((item) => item.id != ProductId)] })
@@ -33,7 +31,7 @@ export const useBearStore = create(
             removeAll: () => {
                 set({ items: [] })
             }
-        },
+        }
 ),
         {
             name: 'cart-storage', // name of the item in the storage (must be unique)
@@ -41,3 +39,5 @@ export const useBearStore = create(
         },
     ),
 )
+
+export default useShoppingCart;

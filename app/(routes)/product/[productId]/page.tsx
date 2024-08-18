@@ -14,9 +14,11 @@ const ProductPage: React.FC<ProductPageProps> = async ({
     params
 }) => {
     const product: Product = await GetProduct(params.productId);
-    const suggestedProducts:Product[] = await getProducts({
+    var suggestedProducts:Product[] = await getProducts({
         categoryId:product?.category?.id
     }) ; 
+    // exclude the current product from the list of suggested products
+    suggestedProducts =  suggestedProducts.filter((product)=>product.id!==params.productId);
 
     return (
         <div className='bg-white' >
@@ -31,7 +33,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({
                             <ProductInfo product={product}  />
                         </div>
                     </div>
-                    <hr className='my-10' />
+                    <hr className='my-7' />
                     <ProductList data={suggestedProducts} title={'Realted Items'} />
                 </div>
             </Container>

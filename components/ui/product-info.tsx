@@ -4,6 +4,7 @@ import Currency from './currency'
 import preventHydration from '../hydration-prevention'
 import { ShoppingCart } from 'lucide-react'
 import Button from './button'
+import useShoppingCart from '@/hooks/use-cart-storage'
 
 interface ProductInfoProps {
     product: Product
@@ -13,6 +14,11 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
     product
 }) => {
     preventHydration();
+    const shoppingCart = useShoppingCart();
+    const addToCart = ()=>{
+        shoppingCart.addItem(product);
+    }
+
     return (
         <div  >
             <h1 className='text-3xl font-bold' >
@@ -38,7 +44,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
                 <div className='h-2' ></div>
 
             </div>
-            <Button className='w-full sm:w-auto text-sm flex items-center justify-center bg-black text-white gap-x-2 ' >
+            <Button onClick={addToCart} className='w-full sm:w-auto text-sm flex items-center justify-center bg-black text-white gap-x-2 ' >
                 Add To Cart
                 <ShoppingCart
                     size={20}
