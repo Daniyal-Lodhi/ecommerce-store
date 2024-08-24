@@ -12,9 +12,9 @@ const ProductGallery:React.FC<ProductGalleryProps> = ({
   return (
    <TabGroup className={'flex flex-col-reverse'} >
     <div className="w-full max-w-2xl lg:max-w-none sm:block mt-6 mx-auto  " > 
-        <TabList className={'grid grid-cols-4 gap-6'} >
+        <TabList className={'grid grid-cols-4 gap-6 sm:px-0 px-2'} >
             {
-                images.map((image)=>(
+                images?.map((image)=>(
                     <GalleryTab image={image} key={image.id}   />
                 ))
             }
@@ -23,7 +23,7 @@ const ProductGallery:React.FC<ProductGalleryProps> = ({
     {/* the tabPanel is the image shown based on the id matched by the tab list selected tab */}
     <TabPanels className="aspect-square w-full " >
             {
-                images.map((image)=>(
+                images?.map((image)=>(
                     <TabPanel key={image.id} >
                         <div className=" relative aspect-square sm:rounded-lg w-full h-full overflow-hidden " >
                             <Image 

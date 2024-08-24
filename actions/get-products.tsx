@@ -5,6 +5,7 @@ interface queryProps {
     colorId?:string
     sizeId?:string
     categoryId?:string
+    quantity?:number
     isFeatured?:boolean
 }
 
@@ -17,6 +18,7 @@ const getProducts = async(query:queryProps) :Promise<Product[]>=>{
             sizeId:query.sizeId,
             categoryId:query.categoryId,
             isFeatured:query.isFeatured,
+            quantity:query.quantity
         },
     })
     const products = await axios.get(querifiedUrl) ;

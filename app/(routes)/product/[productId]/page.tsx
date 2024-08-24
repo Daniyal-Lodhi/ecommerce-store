@@ -14,11 +14,11 @@ const ProductPage: React.FC<ProductPageProps> = async ({
     params
 }) => {
     const product: Product = await GetProduct(params.productId);
-    var suggestedProducts:Product[] = await getProducts({
-        categoryId:product?.category?.id
-    }) ; 
+    var suggestedProducts: Product[] = await getProducts({
+        categoryId: product?.category?.id
+    });
     // exclude the current product from the list of suggested products
-    suggestedProducts =  suggestedProducts.filter((product)=>product.id!==params.productId);
+    suggestedProducts = suggestedProducts.filter((product) => product.id !== params.productId);
 
     return (
         <div className='bg-white' >
@@ -29,8 +29,8 @@ const ProductPage: React.FC<ProductPageProps> = async ({
                         <div>
                             <ProductGallery images={product?.images} />
                         </div>
-                        <div className='mt-10 px-2 sm:px-0   md:mt-0'>
-                            <ProductInfo product={product}  />
+                        <div className='mt-10  sm:px-0   md:mt-2'>
+                            <ProductInfo product={product} />
                         </div>
                     </div>
                     <hr className='my-7' />

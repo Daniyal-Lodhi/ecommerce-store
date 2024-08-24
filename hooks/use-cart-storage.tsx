@@ -5,6 +5,8 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 interface CartStorageProps {
     items: Product[]
     addItem: (data: Product) => void
+    stockedOutItems : string[]
+    addStockOutItems:(id:string[])=>void
     removeItem: (id: string) => void
     removeAll: () => void
 }
@@ -20,9 +22,15 @@ const useShoppingCart = create(
                     toast("Item Already in Cart")
                 }
                 else{
-                set({ items: [...get().items,data] })
-                toast.success("Item added to cart")
+                    set({ items: [...get().items,data] })
+                    toast.success("Item added to cart")
                 }
+            },
+            stockedOutItems:[],
+            addStockOutItems: (productIds:string[]) => {
+                set({ stockedOutItems: [] })
+                if(productIds.length>0) 
+                set({stockedOutItems:[...productIds]})
             },
             removeItem: (ProductId: string) => {
                 set({ items: [...get().items.filter((item) => item.id != ProductId)] })
@@ -30,7 +38,8 @@ const useShoppingCart = create(
             },
             removeAll: () => {
                 set({ items: [] })
-            }
+            },
+            
         }
 ),
         {

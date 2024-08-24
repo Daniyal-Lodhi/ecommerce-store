@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import PreviewModal from "../preview-modal";
 import usePreviewModal from "@/hooks/use-preview-modal";
 import useShoppingCart from "@/hooks/use-cart-storage";
+import Badge from "./badge";
 
 interface productCardProps {
     product: Product
@@ -28,12 +29,12 @@ const ProductCard: React.FC<productCardProps> = ({
         router.push(`/product/${product?.id}`)
     }
 
-    const previewProductModal:MouseEventHandler<HTMLButtonElement> = (event) => {
+    const previewProductModal: MouseEventHandler<HTMLButtonElement> = (event) => {
         event.stopPropagation();
         previewModal.onOpen(product);
     }
 
-    const onAddToCart:MouseEventHandler<HTMLButtonElement> = (event) =>{
+    const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
         event.stopPropagation();
 
         shoppingCart.addItem(product);
@@ -58,7 +59,8 @@ const ProductCard: React.FC<productCardProps> = ({
                             />} />
 
                         <Iconbutton
-
+                            disabled={product.quantity==0}
+                            title={`${product.quantity==0?'Out of Stock':"add to cart"}`}
                             onclick={onAddToCart}
                             icon={<ShoppingCart
                                 size={20}
@@ -67,8 +69,14 @@ const ProductCard: React.FC<productCardProps> = ({
                     </div>
                 </div>
                 <div>
-                    <p className="text-lg font-semibold" >{product.name}</p>
-                    <p className="text-sm text-gray-500" >{product.category.name}</p>
+                    <div className="flex flex-wrap gap-y-2 justify-between items-start">
+                        <div>
+                            <p className="text-lg font-semibold" >{product.name}</p>
+                            <p className="text-sm text-gray-500" >{product.category.name}</p>
+                        </div>
+                        { product.quantity==0 && <Badge title="Out of Stock" />}
+
+                    </div>
                 </div>
                 {/* Price */}
                 <div>

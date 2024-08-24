@@ -20,6 +20,7 @@ interface Image  {
 interface Product  {
     id:string
     name:string
+    description:string
     images:Image[]
     color:Color
     size:Size
@@ -27,6 +28,7 @@ interface Product  {
     isArchived:boolean
     isFeatured:boolean
     price:number | string
+    quantity:number | string
 }
 
 interface Category  {

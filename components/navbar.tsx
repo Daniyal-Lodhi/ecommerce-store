@@ -3,12 +3,16 @@ import { MainNav } from "./main-nav";
 import { Container } from "./ui/container";
 import Link from "next/link";
 import NavbarActions from "./navbar-actions";
+import SigninButton from "./ui/sign-in-buton";
+import { UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 
 
 const Navbar = async() => {
 
     const categories = await getCategories() ; 
+    const {userId} = auth();
 
     return (
         <div className="border-b">
@@ -19,8 +23,11 @@ const Navbar = async() => {
                     </Link>
 
                     <MainNav  data={categories} />
-
+                    <div className="flex gap-4 items-center ml-auto" >
+                        
                     <NavbarActions/>
+                    { userId ? <UserButton afterSignOutUrl="/"  /> : <SigninButton/> }
+                    </div>
                     
                 </div>
             </Container>

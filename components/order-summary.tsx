@@ -5,8 +5,9 @@ import React, { useEffect } from 'react'
 import Button from './ui/button'
 import Currency from './ui/currency'
 import axios from 'axios'
-import { useSearchParams } from 'next/navigation'
+import { redirect, useRouter, useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
+import useAuth from '@/hooks/use-auth'
 
 
 interface OrderSummaryProps {
@@ -17,7 +18,6 @@ interface OrderSummaryProps {
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
-    item,
     loading,
     setLoading
 
@@ -25,6 +25,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
     const searchParams = useSearchParams();
     const shoppingCart = useShoppingCart();
+    const router = useRouter();
     const { removeAll, items } = shoppingCart;
     const totalPrice = items.reduce((totalPrice, CartItem) => (
         totalPrice + Number(CartItem.price)
@@ -41,23 +42,39 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             toast.error("Something went wrong")
         }
 
-    }, [removeAll,searchParams])
+    }, [removeAll, searchParams])
 
 
+    const { userId } = useAuth();
     const onCheckout = async () => {
         setLoading(true);
-        try {
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-                productIds: shoppingCart.items.map((item) => item.id)
-            });
 
-            window.location.href = res.data.url;
-        }catch(error){
-            console.log(error);
-        }finally{
-            setLoading(false);
+        if (!userId) {
+            router.push(`/sign-in?redirectUrl=${window.location.href}`)
+        }
+        else {
+
+            try {
+                const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+                    productIds: shoppingCart.items.map((item) => item.id),
+                    userId: userId
+                });
+                if (res.data.outOfStock) {
+                    toast.error(res.data.message)
+                    console.log(res.data)
+                }
+                else {
+                    window.location.href = res.data.url;
+                }
+            } catch (error) {
+                console.log(error);
+                toast.error("Some error occured.")
+            } finally {
+                setLoading(false);
+            }
         }
     }
+
     return (
         <div className='py-5 px-4 bg-slate-50 rounded-md  '>
             <div className='font-semibold text-lg border-b border-gray-200 pb-4 mb-6 text-gray-900' >
@@ -69,7 +86,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                 </div>
                 <Currency value={totalPrice} />
             </div>
-            <Button disabled={loading} onClick={onCheckout} className='text-white  disabled:bg-gray-700 w-full text-center mx-auto flex justify-center' >
+            <Button disabled={ items.length==0 || loading} onClick={onCheckout} className='text-white  disabled:bg-gray-500 w-full text-center mx-auto flex justify-center' >
                 Checkout
             </Button>
         </div>
