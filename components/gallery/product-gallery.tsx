@@ -3,7 +3,7 @@ import GalleryTab from "./gallery-tab"
 import Image from "next/image"
 
 interface ProductGalleryProps{
-    images:Image[]
+    images:Image[] 
 }
 
 const ProductGallery:React.FC<ProductGalleryProps> = ({

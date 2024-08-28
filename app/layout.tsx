@@ -23,8 +23,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const outOfStockProducts = await getProducts({ quantity: 0 });
-  const outOfStockProductsId = outOfStockProducts.map((product) => product.id);
+  const outOfStockProducts:(Product[]|null) = await getProducts({ quantity: 0 });
+  const outOfStockProductsId = outOfStockProducts?.map((product) => product.id);
 
   const {userId} = auth();
   return (
@@ -36,7 +36,7 @@ export default async function RootLayout({
           <Navbar />
           {children}
           <Footer />
-          <ConfigureOutOfStockItem productIds={outOfStockProductsId} />
+          { outOfStockProductsId && <ConfigureOutOfStockItem productIds={outOfStockProductsId} />}
           <SetAuth userId={userId} />
         </body>
       </html>

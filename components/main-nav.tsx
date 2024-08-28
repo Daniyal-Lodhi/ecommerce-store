@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation"
 
 interface mainNavProps {
-    data: Category[]
+    data: Category[] 
 }
 
 export const revalidate = false ;
@@ -14,7 +14,7 @@ export const MainNav: React.FC<mainNavProps> = ({
 }) => {
     const pathname = usePathname();
 
-    const routes = data.map((route) => (
+    const routes = data?.map((route) => (
         {
             label: route.name,
             isActive: pathname === `/category/${route.id}`,
@@ -27,7 +27,7 @@ export const MainNav: React.FC<mainNavProps> = ({
     return (
         <div className="flex space-x-4 lg:space-x-6 mx-6 items-center ">
             {
-                routes.map((route) => (
+                routes?.map((route) => (
                     <Link href={route.href} 
                     key={route.href}
                     className={`

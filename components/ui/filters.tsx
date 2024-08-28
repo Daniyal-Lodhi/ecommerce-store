@@ -4,7 +4,7 @@ import qs from 'query-string'
 import React, { useState } from 'react'
 
 interface FilterProps {
-    data: (Color | Size)[]
+    data: (Color | Size)[] | null
     valueKey: string
     name: string
 }
@@ -44,7 +44,7 @@ const Filter: React.FC<FilterProps> = ({
             </div>
             <hr className='my-3' />
             <div className='flex flex-wrap gap-2' >
-                {data.map((item) => (
+                {data?.map((item) => (
                     <button onClick={() => onFilterClick(item.id)} key={item.id} id={item.id} className={`  font-bold text-sm border border-gray-500 rounded-md px-3 py-1 
                 ${selectedValue === item.id && 'text-white bg-slate-800'}
                 `}  >

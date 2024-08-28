@@ -9,7 +9,7 @@ import Iconbutton from './icon-button'
 import Filter from './filters'
 
 interface MobileFiltersProps {
-    sizes: Size[],
+    sizes: Size[] ,
     colors: Color[]
 }
 

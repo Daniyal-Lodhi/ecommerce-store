@@ -8,7 +8,7 @@ import useShoppingCart from '@/hooks/use-cart-storage'
 import { useParams } from 'next/navigation'
 
 interface ProductInfoProps {
-    product: Product
+    product: Product 
 }
 
 const ProductInfo: React.FC<ProductInfoProps> = ({

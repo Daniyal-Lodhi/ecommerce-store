@@ -11,7 +11,7 @@ import { auth } from "@clerk/nextjs/server";
 
 const Navbar = async() => {
 
-    const categories = await getCategories() ; 
+    const categories:(Category[]|null) = await getCategories() ; 
     const {userId} = auth();
 
     return (
@@ -22,7 +22,7 @@ const Navbar = async() => {
                         <p className="text-xl font-bold  ">Store</p>
                     </Link>
 
-                    <MainNav  data={categories} />
+                    { categories && <MainNav  data={categories} />}
                     <div className="flex gap-4 items-center ml-auto" >
                         
                     <NavbarActions/>

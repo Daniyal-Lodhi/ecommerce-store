@@ -7,11 +7,11 @@ const SetAuth = ({userId}:{userId:string | null}) => {
     useEffect(()=>{
         if(userId){
             setUserId(userId)
-            console.log("id created")
+            // console.log("id created")
         }
         else{
         removeUserId();
-        console.log("id removed")
+        // console.log("id removed")
         }
     },[userId])
     

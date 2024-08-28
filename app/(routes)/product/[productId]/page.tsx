@@ -13,12 +13,12 @@ interface ProductPageProps {
 const ProductPage: React.FC<ProductPageProps> = async ({
     params
 }) => {
-    const product: Product = await GetProduct(params.productId);
-    var suggestedProducts: Product[] = await getProducts({
+    const product: (Product | null) = await GetProduct(params.productId);
+    const CategoryWiseProducts: (Product[] | null ) = await getProducts({
         categoryId: product?.category?.id
     });
     // exclude the current product from the list of suggested products
-    suggestedProducts = suggestedProducts.filter((product) => product.id !== params.productId);
+    const suggestedProducts = CategoryWiseProducts?.filter((product) => product?.id !== params.productId);
 
     return (
         <div className='bg-white' >
@@ -27,14 +27,14 @@ const ProductPage: React.FC<ProductPageProps> = async ({
                 <div className='px-4 sm:px-6 py-10 lg:px-8' >
                     <div className='grid md:grid-cols-2 grid-cols-1 gap-x-4 lg::gap-x-8' >
                         <div>
-                            <ProductGallery images={product?.images} />
-                        </div>
+                            { product && <ProductGallery images={product?.images} />}
+                        </div> 
                         <div className='mt-10  sm:px-0   md:mt-2'>
-                            <ProductInfo product={product} />
+                            { product && <ProductInfo product={product} />}
                         </div>
                     </div>
                     <hr className='my-7' />
-                    <ProductList data={suggestedProducts} title={'Realted Items'} />
+                    { suggestedProducts && <ProductList data={suggestedProducts} title={'Realted Items'} />}
                 </div>
             </Container>
         </div>
