@@ -3,7 +3,7 @@ import React from 'react'
 import Currency from './currency'
 import preventHydration from '../hydration-prevention'
 import { ShoppingCart } from 'lucide-react'
-import Button from './button'
+import {Button} from './button'
 import useShoppingCart from '@/hooks/use-cart-storage'
 import { useParams } from 'next/navigation'
 

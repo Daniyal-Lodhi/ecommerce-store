@@ -1,6 +1,6 @@
 
 interface billboardProps {
-    data: Billboard 
+    data: Billboard
 }
 
 
