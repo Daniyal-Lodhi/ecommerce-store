@@ -11,6 +11,7 @@ import PreviewModal from "../preview-modal";
 import usePreviewModal from "@/hooks/use-preview-modal";
 import useShoppingCart from "@/hooks/use-cart-storage";
 import Badge from "./badge";
+import PreventHydration from "../hydration-prevention";
 
 interface productCardProps {
     product: Product
@@ -20,7 +21,6 @@ const ProductCard: React.FC<productCardProps> = ({
     product
 }) => {
 
-    preventHydration();
     const router = useRouter();
     const previewModal = usePreviewModal();
     const shoppingCart = useShoppingCart();
@@ -42,6 +42,8 @@ const ProductCard: React.FC<productCardProps> = ({
     }
     return (
         <>
+            <PreventHydration />
+
             <div onClick={handleClick} className="bg-white border rounded-xl p-3 group cursor-pointer space-y-4 " >
                 <div className="aspect-square relative rounded-xl bg-gray-100" >
                     <Image
@@ -59,8 +61,8 @@ const ProductCard: React.FC<productCardProps> = ({
                             />} />
 
                         <Iconbutton
-                            disabled={product.quantity==0}
-                            title={`${product.quantity==0?'Out of Stock':"add to cart"}`}
+                            disabled={product.quantity == 0}
+                            title={`${product.quantity == 0 ? 'Out of Stock' : "add to cart"}`}
                             onclick={onAddToCart}
                             icon={<ShoppingCart
                                 size={20}
@@ -74,7 +76,7 @@ const ProductCard: React.FC<productCardProps> = ({
                             <p className="text-lg font-semibold" >{product.name}</p>
                             <p className="text-sm text-gray-500" >{product.category.name}</p>
                         </div>
-                        { product.quantity==0 && <Badge title="Out of Stock" />}
+                        {product.quantity == 0 && <Badge title="Out of Stock" />}
 
                     </div>
                 </div>

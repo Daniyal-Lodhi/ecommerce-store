@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useState } from 'react'
-import Button from './button'
-import preventHydration from '../hydration-prevention'
+import {Button} from './button'
 import { PlusIcon, X } from 'lucide-react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import Iconbutton from './icon-button'
 import Filter from './filters'
+import PreventHydration from '../hydration-prevention'
 
 interface MobileFiltersProps {
     sizes: Size[] ,
@@ -17,7 +17,6 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
     sizes,
     colors
 }) => {
-    preventHydration();
     const [open, setOpen] = useState(false);
     const onOpen = () => {
         setOpen(true)
@@ -26,6 +25,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
     const onClose = () => setOpen(false);
     return (
         <div>
+            <PreventHydration/>
             <Button onClick={onOpen} className='flex items-center gap-x-2 text-white'  >
                 Filters
                 <PlusIcon size={18} />

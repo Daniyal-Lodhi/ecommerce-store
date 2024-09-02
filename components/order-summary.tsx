@@ -8,6 +8,7 @@ import useAuth from '@/hooks/use-auth'
 import preventHydration from './hydration-prevention'
 import { GetDate } from '@/actions/getDate'
 import CheckoutForm from './ui/checkout-form'
+import PreventHydration from './hydration-prevention'
 
 
 interface OrderSummaryProps {
@@ -22,7 +23,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     setLoading
 
 }) => {
-    preventHydration();
     const { userId } = useAuth();
     const deliveryDate = GetDate(5);
 
@@ -60,6 +60,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
     return (
         <div className='py-5 px-4 bg-slate-50 rounded-md  '>
+            <PreventHydration/>
             <div className='font-semibold text-lg border-b border-gray-200 pb-4 mb-6 text-gray-900' >
                 Order Summary
             </div>

@@ -1,11 +1,11 @@
 'use client'
 import React from 'react'
 import Currency from './currency'
-import preventHydration from '../hydration-prevention'
 import { ShoppingCart } from 'lucide-react'
 import {Button} from './button'
 import useShoppingCart from '@/hooks/use-cart-storage'
 import { useParams } from 'next/navigation'
+import PreventHydration from '../hydration-prevention'
 
 interface ProductInfoProps {
     product: Product 
@@ -14,7 +14,6 @@ interface ProductInfoProps {
 const ProductInfo: React.FC<ProductInfoProps> = ({
     product
 }) => {
-    preventHydration();
     const shoppingCart = useShoppingCart();
     const addToCart = () => {
         shoppingCart.addItem(product);
@@ -24,6 +23,8 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
 
     return (
         <div  >
+                        <PreventHydration/>
+
             <h1 className='text-3xl font-bold' >
                 {product?.name}
             </h1>

@@ -1,17 +1,21 @@
 'use client'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-const preventHydration = ()=>{
-    const [mounted,setMouted] = useState(false) ;
+const PreventHydration = () => {
+    const [mounted, setMounted] = useState(false);
 
-    useEffect(()=>{
-        setMouted(true) ;
-    },[])
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
-    if(!mounted){
+    if (!mounted) {
         return null;
     }
-}
 
-export default preventHydration ;
+    return (
+        <></>
+    );
+};
+
+export default PreventHydration;
