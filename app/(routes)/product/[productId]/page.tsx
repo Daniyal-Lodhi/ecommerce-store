@@ -4,7 +4,14 @@ import ProductGallery from '@/components/gallery/product-gallery'
 import ProductList from '@/components/product-list'
 import { Container } from '@/components/ui/container'
 import ProductInfo from '@/components/ui/product-info'
+import { Metadata } from 'next'
 import React from 'react'
+
+
+export const metadata: Metadata = {
+    title: 'Product',
+    description: "Flash Store products"
+}
 
 interface ProductPageProps {
     params: { productId: string }

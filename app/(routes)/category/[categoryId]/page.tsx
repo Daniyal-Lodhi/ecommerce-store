@@ -9,7 +9,15 @@ import Filter from '@/components/ui/filters'
 import MobileFilters from '@/components/ui/mobile-filters'
 import ProductCard from '@/components/ui/product-card'
 import { FilterIcon } from 'lucide-react'
+import { Metadata } from 'next'
 import React from 'react'
+
+
+export const metadata: Metadata = {
+    title: 'Category',
+    description: "Flash Store Categories"
+}
+
 
 interface CatetgoryPageProps {
     params: { categoryId: string },
@@ -18,6 +26,8 @@ interface CatetgoryPageProps {
         colorId:string,
     }
 }
+
+
 
 const CategoryPage: React.FC<CatetgoryPageProps> = async ({
     params,

@@ -4,7 +4,9 @@ import CartItem from '@/components/cart-item'
 import OrderSummary from '@/components/order-summary'
 import { Container } from '@/components/ui/container'
 import useShoppingCart from '@/hooks/use-cart-storage'
+import { Metadata } from 'next'
 import React, { useState } from 'react'
+
 
 const Cart = () => {
     const items = useShoppingCart();

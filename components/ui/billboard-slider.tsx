@@ -21,7 +21,7 @@ const BillboardSlider: React.FC<billboardSliderProps> = ({
 }) => {
 
     const plugin = React.useRef(
-        Autoplay({ delay: 3000, })
+        Autoplay({ delay: 3000, }),
     )
 
 
@@ -40,8 +40,8 @@ const BillboardSlider: React.FC<billboardSliderProps> = ({
                             <div className="  rounded-xl relative aspect-square md:aspect-[3/1] overflow-hidden object-cover bg-cover"
                                 style={{ backgroundImage: `url(${billboard.imageUrl})` }}
                             >
-                                <CarouselPrevious className="absolute top-[50%] left-0 z-50 bg-transparent border-none hover:bg-transparent " />
-                                <CarouselNext className="absolute top-[50%] right-0 z-50 bg-transparent border-none hover:bg-transparent " />
+                                { data.length > 1 && <CarouselPrevious className="absolute top-[50%] left-0 z-50 bg-transparent border-none hover:bg-transparent " />}
+                                { data.length > 1 && <CarouselNext className="absolute top-[50%] right-0 z-50 bg-transparent border-none hover:bg-transparent " />}
                                 <div className="flex flex-col gap-y-8 justify-center items-center h-full w-full text-center" >
                                     <div className="text-3xl sm:text-5xl lg:text-6xl font-bold sm:max-w-xl max-w-xs " >
                                         {billboard?.label}

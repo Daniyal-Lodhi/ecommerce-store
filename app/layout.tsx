@@ -13,9 +13,14 @@ import SetAuth from "@/actions/setAuth";
 
 const font = Urbanist({ subsets: ["latin"] });
 
+let title = "Flash Store";
+
 export const metadata: Metadata = {
-  title: "Store",
-  description: "Store",
+  title: {
+    template: `${title} | %s`, // Template for dynamic title
+    default: `${title} `, // Absolute title
+  },
+  description: "Flash Store 2024",
 };
 
 export default async function RootLayout({
@@ -23,10 +28,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const outOfStockProducts:(Product[]|null) = await getProducts({ quantity: 0 });
+  const outOfStockProducts: (Product[] | null) = await getProducts({ quantity: 0 });
   const outOfStockProductsId = outOfStockProducts?.map((product) => product.id);
 
-  const {userId} = auth();
+  const { userId } = auth();
   return (
     <ClerkProvider>
       <html lang="en">
@@ -36,7 +41,7 @@ export default async function RootLayout({
           <Navbar />
           {children}
           <Footer />
-          { outOfStockProductsId && <ConfigureOutOfStockItem productIds={outOfStockProductsId} />}
+          {outOfStockProductsId && <ConfigureOutOfStockItem productIds={outOfStockProductsId} />}
           <SetAuth userId={userId} />
         </body>
       </html>
