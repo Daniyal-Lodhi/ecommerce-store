@@ -1,34 +1,48 @@
 'use client'
 
-import { LogIn, ShoppingBag } from "lucide-react"
+import { ShoppingBag } from "lucide-react"
 import Button from "./ui/custom-button"
 import useShoppingCart from "@/hooks/use-cart-storage"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
+interface NavbarActionsProps {
+    onClose?: () => void
+}
 
-
-const NavbarActions = () => {
-    const [mounted,setMounted] = useState(false);
-    useEffect(()=>{
+const NavbarActions: React.FC<NavbarActionsProps> = ({
+    onClose,
+}) => {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
         setMounted(true);
-    },[])
+    }, [])
     const shoppingCart = useShoppingCart();
     const router = useRouter();
+    const onNavigate = () => {
+        if (onClose) {
+            onClose();
+        }
+        router.push('/cart')
+    }
     return (
-        <div className="ml-auto flex items-center gap-x-4">
-            { mounted && <Button onClick={() => router.push('/cart')}  >
-                <ShoppingBag
-                    size={20}
-                    color="white"
-                />
-                <span className="ml-2 text-white " >
-                    {shoppingCart.items.length}
-                </span>
+        <div className="flex justify-between items-center " >
+            <div className="flex items-center gap-x-4">
+                {mounted && <Button onClick={onNavigate}  >
+                    <ShoppingBag
+                        size={20}
+                        color="white"
+                    />
+                    <span className="ml-2 text-white " >
+                        {shoppingCart.items.length}
+                    </span>
 
 
-            </Button>}
-            
+                </Button>
+                }
+
+            </div>
+
         </div>
     )
 

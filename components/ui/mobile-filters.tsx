@@ -20,7 +20,6 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
     const [open, setOpen] = useState(false);
     const onOpen = () => {
         setOpen(true)
-        console.log("hello world")
     };
     const onClose = () => setOpen(false);
     return (

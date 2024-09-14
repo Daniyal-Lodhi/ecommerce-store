@@ -1,10 +1,10 @@
 import { auth } from '@clerk/nextjs/server';
 import axios from 'axios';
 
-const getProduct = async (id: string): Promise<Product | null> => {
+const getFavouriteProducts = async (): Promise< Favourites [] | null> => {
     try {
         const { userId } = auth()
-        const Url = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}/${userId}`;
+        const Url = `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`;
         // console.log(Url)
         const product = await axios.get(Url);        
         return product.data
@@ -15,4 +15,4 @@ const getProduct = async (id: string): Promise<Product | null> => {
 
 }
 
-export default getProduct
+export default getFavouriteProducts

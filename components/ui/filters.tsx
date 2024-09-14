@@ -1,31 +1,49 @@
 'use client'
+import { OrderFilterData } from '@/app/(routes)/orders/components/orderFilters'
 import { useRouter, useSearchParams } from 'next/navigation'
 import qs from 'query-string'
 import React, { useState } from 'react'
 
 interface FilterProps {
-    data: (Color | Size)[] | null
+    data: (Color | Size | OrderFilterData)[] | null
     valueKey: string
     name: string
+    componentName?: string
 }
 
 const Filter: React.FC<FilterProps> = ({
     data,
+    componentName,
     valueKey,
     name
 }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const selectedValue = searchParams.get(valueKey);
+    const selectedValue = componentName && componentName == "orders" ? searchParams.get('status') : searchParams.get(valueKey)
 
     const onFilterClick = (id: string) => {
         const current = qs.parse(searchParams.toString());
-        const query = {
-            ...current,
-            [valueKey]: id
+        var query;
+        if (componentName && componentName == "orders") {
+            if(current['status'] == id){
+                query = {
+                    "status": undefined
+                } 
+            }else{
+                query = {
+                    "status":id
+                }
+            }
+            
         }
-        if (current[valueKey] === id) {
-            query[valueKey] = null;
+        else {
+            query = {
+                ...current,
+                [valueKey]: id
+            }
+            if (current[valueKey] === id) {
+                query[valueKey] = null;
+            }
         }
         const querifiedUrl = qs.stringifyUrl({
             url: window.location.href,
@@ -34,7 +52,7 @@ const Filter: React.FC<FilterProps> = ({
             skipNull: true
         }
         );
-        router.push(querifiedUrl,{scroll:false});
+        router.push(querifiedUrl, { scroll: false });
 
     }
     return (

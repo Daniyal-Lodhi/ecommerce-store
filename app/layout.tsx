@@ -30,8 +30,8 @@ export default async function RootLayout({
 }>) {
   const outOfStockProducts: (Product[] | null) = await getProducts({ quantity: 0 });
   const outOfStockProductsId = outOfStockProducts?.map((product) => product.id);
-
   const { userId } = auth();
+  // console.log(userId)
   return (
     <ClerkProvider>
       <html lang="en">

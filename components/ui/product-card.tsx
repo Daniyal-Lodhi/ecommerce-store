@@ -1,17 +1,21 @@
 'use client'
 
 import Image from "next/image";
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import Iconbutton from "./icon-button";
-import { Expand, ShoppingCart } from "lucide-react";
+import { Expand, Heart, ShoppingCart } from "lucide-react";
 import preventHydration from "../hydration-prevention";
 import Currency from "./currency";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import PreviewModal from "../preview-modal";
 import usePreviewModal from "@/hooks/use-preview-modal";
 import useShoppingCart from "@/hooks/use-cart-storage";
 import Badge from "./badge";
 import PreventHydration from "../hydration-prevention";
+import { Button } from "./button";
+import { useAuth } from "@clerk/nextjs";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 interface productCardProps {
     product: Product
@@ -20,13 +24,37 @@ interface productCardProps {
 const ProductCard: React.FC<productCardProps> = ({
     product
 }) => {
-
+    const pathname = usePathname();
     const router = useRouter();
     const previewModal = usePreviewModal();
     const shoppingCart = useShoppingCart();
+    const [isLiked, setIsLiked] = useState(true);
+
 
     const handleClick = () => {
         router.push(`/product/${product?.id}`)
+    }
+    const { userId } = useAuth();
+    const handletoggleFav = async (productId: string,event:React.MouseEvent) => {
+        event.stopPropagation(); // Prevent navigation to the product page
+
+        try {
+            setIsLiked(!isLiked)
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}/${userId}`
+            console.log("send at server :", !isLiked)
+            await axios.post(url, { liked: !isLiked })
+            router.refresh();
+            isLiked ? toast.success("Item removed from favourites") : toast.success("Item added to favourites")
+
+
+        } catch (error) {
+            setIsLiked(isLiked)
+            toast.error("Some error occurred")
+            console.log(error);
+
+        } finally {
+            console.log(isLiked)
+        }
     }
 
     const previewProductModal: MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -44,8 +72,14 @@ const ProductCard: React.FC<productCardProps> = ({
         <>
             <PreventHydration />
 
-            <div onClick={handleClick} className="bg-white border rounded-xl p-3 group cursor-pointer space-y-4 " >
-                <div className="aspect-square relative rounded-xl bg-gray-100" >
+            <div
+                onClick={handleClick}
+                // onClick={pathname == '/favlist' ? undefined : handleClick}
+                className="bg-white border rounded-xl p-3 group cursor-pointer space-y-4 " >
+                <div
+                    onClick={handleClick}
+                    // onClick={pathname === '/favlist' ? handleClick : undefined}
+                    className="aspect-square relative rounded-xl bg-gray-100" >
                     <Image
                         src={product?.images?.[0]?.imageUrl}
                         fill
@@ -72,8 +106,11 @@ const ProductCard: React.FC<productCardProps> = ({
                 </div>
                 <div>
                     <div className="flex flex-wrap gap-y-2 justify-between items-start">
-                        <div>
-                            <p className="text-lg font-semibold" >{product.name}</p>
+                        <div className="w-full" >
+                            <div className="text-lg font-semibold " >
+                                {product.name}
+
+                            </div>
                             <p className="text-sm text-gray-500" >{product.category.name}</p>
                         </div>
                         {product.quantity == 0 && <Badge title="Out of Stock" />}
@@ -84,7 +121,10 @@ const ProductCard: React.FC<productCardProps> = ({
                 <div>
                     <Currency value={product.price} />
                 </div>
-
+                {pathname === '/favlist' && <div>
+                    {isLiked ? <Button onClick={(event) => handletoggleFav(product.id,event)} title='Remove from favourite' className='border hover:bg-transparent bg-transparent' ><Heart size={18} color='red' fill='red' /> </Button>
+                        : <Button onClick={(event) => handletoggleFav(product.id,event)} title='Add to favourite' className='border hover:bg-transparent bg-transparent' ><Heart size={18} color='black' /> </Button>}
+                </div>}
             </div>
         </>
     )

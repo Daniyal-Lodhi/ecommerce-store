@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 
 const PreventHydration = () => {
+    
     const [mounted, setMounted] = useState(false);
-
     useEffect(() => {
         setMounted(true);
     }, []);
