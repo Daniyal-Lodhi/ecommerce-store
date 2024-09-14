@@ -2,7 +2,9 @@
 
 import getFavouriteProducts from '@/actions/get-fav-products'
 import ProductList from '@/components/product-list';
+import { auth } from '@clerk/nextjs/server';
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 
 export const metadata: Metadata = {
@@ -12,6 +14,10 @@ export const metadata: Metadata = {
 
 
 const FavPage = async() => {
+  const {userId} = auth();
+  if(!userId){
+    redirect(`/sign-in?redirectUrl=/favlist`)
+  }
     let favProducts:(Favourites[]|Product[]|null) = await getFavouriteProducts();
     favProducts =  favProducts && favProducts.map((item)=>(item.product));
   return (
