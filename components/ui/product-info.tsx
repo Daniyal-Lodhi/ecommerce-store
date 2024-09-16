@@ -24,22 +24,28 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         shoppingCart.addItem(product);
     }
     const { userId } = useAuth();
-    const handletoggleFav = async() => {
+    const handletoggleFav = async () => {
         try {
-            setIsLiked(!isLiked)
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${params.productId}/${userId}`
-            console.log("send at server :",!isLiked)
-            await axios.post(url, { liked: !isLiked })
-            router.refresh();
-            isLiked?toast.success("Item removed from favourites"):toast.success("Item added to favourites")
+            if (!userId) {
+                router.push(`/sign-in?redirectUrl=${window.location.href}`)
+            }
+            else {
+                setIsLiked(!isLiked)
+                isLiked ? toast.success("Item removed from favourites") : toast.success("Item added to favourites")
+                // throw new Error()
+                const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${params.productId}/${userId}`
+                console.log("send at server :", !isLiked)
+                await axios.post(url, { liked: !isLiked })
+                router.refresh();
+            }
 
 
         } catch (error) {
             setIsLiked(isLiked)
-            toast.error("Some error occurred")
+            toast.error(`Some error occurred while ${isLiked ? "removing" : "adding"} the item.`)
             console.log(error);
-            
-        }finally{
+
+        } finally {
             console.log(isLiked)
         }
     }

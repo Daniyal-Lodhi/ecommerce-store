@@ -35,21 +35,25 @@ const ProductCard: React.FC<productCardProps> = ({
         router.push(`/product/${product?.id}`)
     }
     const { userId } = useAuth();
-    const handletoggleFav = async (productId: string,event:React.MouseEvent) => {
+    const handletoggleFav = async (productId: string, event: React.MouseEvent) => {
         event.stopPropagation(); // Prevent navigation to the product page
 
         try {
-            setIsLiked(!isLiked)
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}/${userId}`
-            console.log("send at server :", !isLiked)
-            await axios.post(url, { liked: !isLiked })
-            router.refresh();
-            isLiked ? toast.success("Item removed from favourites") : toast.success("Item added to favourites")
-
+            if (!userId) {
+                router.push(`/sign-in?redirectUrl=${window.location.href}`)
+            } else {
+                setIsLiked(!isLiked)
+                toast.success("Item removed from favourites")
+                // throw new Error()
+                const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}/${userId}`
+                console.log("send at server :", !isLiked)
+                await axios.post(url, { liked: !isLiked })
+                router.refresh();
+            }
 
         } catch (error) {
             setIsLiked(isLiked)
-            toast.error("Some error occurred")
+            toast.error("Some error occurred while removing the item")
             console.log(error);
 
         } finally {
@@ -122,8 +126,8 @@ const ProductCard: React.FC<productCardProps> = ({
                     <Currency value={product.price} />
                 </div>
                 {pathname === '/favlist' && <div>
-                    {isLiked ? <Button onClick={(event) => handletoggleFav(product.id,event)} title='Remove from favourite' className='border hover:bg-transparent bg-transparent' ><Heart size={18} color='red' fill='red' /> </Button>
-                        : <Button onClick={(event) => handletoggleFav(product.id,event)} title='Add to favourite' className='border hover:bg-transparent bg-transparent' ><Heart size={18} color='black' /> </Button>}
+                    {isLiked ? <Button onClick={(event) => handletoggleFav(product.id, event)} title='Remove from favourite' className='border hover:bg-transparent bg-transparent' ><Heart size={18} color='red' fill='red' /> </Button>
+                        : <Button onClick={(event) => handletoggleFav(product.id, event)} title='Add to favourite' className='border hover:bg-transparent bg-transparent' ><Heart size={18} color='black' /> </Button>}
                 </div>}
             </div>
         </>
