@@ -34,10 +34,7 @@ export const MainNav: React.FC<mainNavProps> = ({
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const [collapesed, setCollapesed] = useState(false);
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => {
-        setMounted(true);
-    }, [])
+
 
     const routes = data?.map((route) => (
         {
@@ -54,11 +51,7 @@ export const MainNav: React.FC<mainNavProps> = ({
     };
 
 
-    if (!mounted) {
-        return <div className="p-2 m-0 border rounded-md" >
-            <Menu size={18} />
-        </div>;
-    }
+
 
 
 
@@ -66,12 +59,14 @@ export const MainNav: React.FC<mainNavProps> = ({
         <div className="sm:w-full w-auto">
             <div className="sm:flex hidden items-center justify-between" >
                 <div className="sm:flex hidden  space-x-6 lg:space-x-5 mx-6 items-center ">
-                    <Link href={'/'} className=" hover:text-black flex items-center  font-semibold text-gray-600" >Home</Link>
+                    <Link href={'/'} className={`${pathname == '/' ? 'text-black font-bold' : 'text-gray-500'} hover:text-black flex items-center  font-semibold `} >Home</Link>
 
                     {
 
                         <DropdownMenu>
-                            <DropdownMenuTrigger className="outline-none border-none hover:text-black flex items-center  font-semibold text-gray-600" >
+                            <DropdownMenuTrigger className={`  outline-none border-none hover:text-black flex items-center  font-semibold
+                                 ${pathname.includes('/category') ? 'text-black font-bold' : 'text-gray-500'} 
+                                `} >
                                 <p>Categories</p>
                                 <ChevronDown size={18} />
                             </DropdownMenuTrigger>
@@ -99,9 +94,9 @@ export const MainNav: React.FC<mainNavProps> = ({
                         </DropdownMenu>
                     }
                     <Link
-                        href={'/orders'} className=" hover:text-black flex items-center  font-semibold text-gray-600" >Orders</Link>
+                        href={'/orders'} className={` hover:text-black flex items-center  font-semibold ${pathname == '/orders' ? 'text-black font-bold' : 'text-gray-500'}`} >Orders</Link>
                     <Link
-                        href={'/favlist'} className=" hover:text-black flex items-center  font-semibold text-gray-600" >Fav List</Link>
+                        href={'/favlist'} className={` ${pathname == '/orders' ? 'text-black font-bold' : 'text-gray-500'} hover:text-black flex items-center font-semibold`} >Fav List</Link>
 
                 </div>
                 <NavbarActions />
