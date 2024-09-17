@@ -33,7 +33,7 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({
                 <div className='fixed inset-0 z-50 flex ' >
                     <DialogPanel className={`relative w-full  rounded-xl flex-col items-center overflow-y-auto max-w-xs ml-auto bg-white`} >
                         <div className='flex items-center justify-end px-4 my-2' >
-                            <Iconbutton onclick={onClose} icon={<X size='15' />} />
+                            <Iconbutton className='rounded-md border-none shadow-md mt-2'  onclick={onClose} icon={<X size='15' />} />
                         </div>
                         <div className='p-4' >
                             <Filter data={sizes} name='Sizes' valueKey='sizeId' />

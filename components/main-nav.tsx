@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation"
 import NavbarActions from "./navbar-actions";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Iconbutton from "./ui/icon-button";
 import { Separator } from "./ui/separator";
@@ -34,6 +34,10 @@ export const MainNav: React.FC<mainNavProps> = ({
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const [collapesed, setCollapesed] = useState(false);
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, [])
 
     const routes = data?.map((route) => (
         {
@@ -44,8 +48,17 @@ export const MainNav: React.FC<mainNavProps> = ({
     ))
 
     const onOpen = () => setOpen(true);
-    const onClose = () => setOpen(false);
+    const onClose = () => {
+        setOpen(false);
+        setCollapesed(false);
+    };
 
+
+    if (!mounted) {
+        return <div className="p-2 m-0 border rounded-md" >
+            <Menu size={18} />
+        </div>;
+    }
 
 
 
@@ -65,7 +78,8 @@ export const MainNav: React.FC<mainNavProps> = ({
                             <DropdownMenuContent>
 
                                 {routes?.map((route) => (
-                                    <Link href={route.href}
+                                    <Link
+                                        href={route.href}
                                         key={route.href}
                                         className={`
                             ${route.isActive ? 'text-black font-bold' : 'text-neutral-500'} 
@@ -84,31 +98,36 @@ export const MainNav: React.FC<mainNavProps> = ({
                             </DropdownMenuContent>
                         </DropdownMenu>
                     }
-                    <Link href={'/orders'} className=" hover:text-black flex items-center  font-semibold text-gray-600" >Orders</Link>
-                    <Link href={'/favlist'} className=" hover:text-black flex items-center  font-semibold text-gray-600" >Fav List</Link>
+                    <Link
+                        href={'/orders'} className=" hover:text-black flex items-center  font-semibold text-gray-600" >Orders</Link>
+                    <Link
+                        href={'/favlist'} className=" hover:text-black flex items-center  font-semibold text-gray-600" >Fav List</Link>
 
                 </div>
                 <NavbarActions />
             </div>
-            <div className="flex sm:hidden items-center" >
+            <div className="flex sm:hidden z-[50] relative items-center" >
                 <button onClick={onOpen} className="p-2 m-0 border rounded-md" >
                     <Menu size={18} />
                 </button>
-                <Dialog open={open} onClose={onClose} className="relative w-full z-50 lg:hidden " >
+                <Dialog open={open} onClose={onClose} className="relative z-50 lg:hidden " >
                     <div className='fixed w-full left-0 bottom-0 top-0 z-50 flex ' >
 
-                        <DialogPanel className={`relative w-full p-2  rounded-xl flex-col items-center overflow-y-auto max-w-xs  bg-white`} >
+                        <DialogPanel className={`relative w-[80%] p-2 pt-0  rounded-xl flex-col items-center overflow-y-auto max-w-xs  bg-white`} >
                             <div className='flex mt-4 mb-2 items-center justify-between ' >
-                                <Iconbutton className="rounded-md" onclick={onClose} icon={<X size='15' />} />
+                                <Iconbutton className="rounded-md mb-1 border-none shadow-md" onclick={onClose} icon={<X size='15' />} />
                                 <div  >
                                     <NavbarActions onClose={onClose} />
                                 </div>
 
                             </div>
-                            <div className="flex-col justify-center space-y-3 mt-5" >
-                                <div className="flex-col justify-center space-y-2" >
+                            <Separator className="mt-5" />
+                            <div className="flex-col  justify-center space-y-3 mt-5" >
+                                <div className=" text-lg flex-col justify-center space-y-2" >
                                     <div>
-                                        <Link href={'/'} >Home</Link>
+                                        <Link
+                                            onClick={onClose}
+                                            href={'/'} >Home</Link>
                                     </div>
                                     <Collapsible className="transition duration-1000" onOpenChange={() => setCollapesed(!collapesed)}>
                                         <CollapsibleTrigger className="flex items-center space-x-4" >
@@ -123,9 +142,11 @@ export const MainNav: React.FC<mainNavProps> = ({
                                                 routes?.map((route) => (
                                                     <Link href={route.href}
                                                         key={route.href}
+                                                        onClick={onClose}
                                                         className={`
-                                                            ${route.isActive ? 'text-black font-bold' : 'text-neutral-500'} 
+                                                            ${route.isActive ? 'text-black  font-bold' : 'text-neutral-500'} 
                                                             transition-colors
+                                                            text-lg
                                                             hover:text-black 
                                                             font-semibold
                                                             text-[15px]
@@ -140,10 +161,16 @@ export const MainNav: React.FC<mainNavProps> = ({
                                     </Collapsible>
 
                                     <div>
-                                        <Link href={'/orders'} >Orders</Link>
+                                        <Link
+                                            onClick={onClose}
+                                            href={'/orders'}
+                                        >Orders</Link>
                                     </div>
                                     <div>
-                                        <Link href={'/favlist'} >Fav List</Link>
+                                        <Link
+                                            onClick={onClose}
+                                            href={'/favlist'}
+                                        >Fav List</Link>
                                     </div>
                                 </div>
                             </div>

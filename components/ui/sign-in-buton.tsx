@@ -10,7 +10,7 @@ const SigninButton = () => {
 
             {
                 <div
-                    onClick={() =>{router.push('/sign-up')}
+                    onClick={() =>{router.push('/sign-in')}
                     }
                     className="flex flex-nowrap text-nowrap items-center gap-2 cursor-pointer">
                     <LogIn size={15} />

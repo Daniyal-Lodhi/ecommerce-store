@@ -87,8 +87,9 @@ const ProductCard: React.FC<productCardProps> = ({
                     <Image
                         src={product?.images?.[0]?.imageUrl}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         alt="Image"
-                        className="object-cover rounded-md aspect-square"
+                        className=" object-cover rounded-md aspect-square"
                     />
                     <div className="absolute flex justify-center gap-x-6 items-center bottom-5 px-6 opacity-0 group-hover:opacity-100 w-full" >
                         <Iconbutton

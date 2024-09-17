@@ -16,19 +16,27 @@ const Navbar = async () => {
     const { userId } = auth();
 
     return (
-        <div className="border-b">
+        <div className=" relative z-[40]  border-b">
             <Container >
-                <div className=" px-4 sm:px-6 lg:px-8 h-16 flex justify-between sm:justify-normal  items-center relative" >
+                <div className="px-4 sm:px-6 lg:px-8 h-16 flex justify-between sm:justify-normal  items-center relative" >
                     <Link href='/' className=" sm:order-1 order-2 sm:mr-2 flex flex-nowrap lg:ml-0 space-x-1  items-center" >
-                        <Image src='/flash.png' width={30} height={20} alt="Flash Store" />
+                        <div   style={{ position: 'relative', width: '30px', height: '30px' }}>
+                            <Image
+                                src="/flash.png"
+                                alt="Flash Store"
+                                fill // This makes the image fill the parent container
+                                sizes="30px" // Set the sizes prop to improve performance
+                                style={{ objectFit: 'contain' }} // or 'cover', depending on how you want it to scale
+                            />
+                        </div>
                         <p className="sm:text-xl font-bold text-base text-nowrap">Flash Store</p>
                     </Link>
-                    <div className="order-1 sm:order-2 sm:w-full px-2" >
-                        {categories && <MainNav data={categories} />}
+                    <div className="order-1 sm:order-2 sm:w-full  px-2" >
+                        {categories && <MainNav  data={categories} />}
                     </div>
 
                     <div className="flex order-last  h-full items-center sm:ml-auto" >
-                        {userId ? <UserButton  /> : <SigninButton />}
+                        {userId ? <UserButton /> : <SigninButton />}
                     </div>
 
                 </div>

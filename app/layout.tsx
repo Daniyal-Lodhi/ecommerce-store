@@ -10,6 +10,7 @@ import getProducts from "@/actions/get-products";
 import { ClerkProvider } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import SetAuth from "@/actions/setAuth";
+import LoaderProvider from "./loading";
 
 const font = Urbanist({ subsets: ["latin"] });
 
@@ -39,6 +40,7 @@ export default async function RootLayout({
           <ToastProvider />
           <ProductModalProvider />
           <Navbar />
+          {/* <LoaderProvider/> */}
           {children}
           <Footer />
           {outOfStockProductsId && <ConfigureOutOfStockItem productIds={outOfStockProductsId} />}
