@@ -1,8 +1,11 @@
-
+'use client'
 import PreventHydration from '@/components/hydration-prevention';
+import { Button } from '@/components/ui/button';
 import Currency from '@/components/ui/currency';
 import { Separator } from '@/components/ui/separator'
 import { format, add } from "date-fns";
+import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface OrderCardProps {
     data: Order
@@ -12,10 +15,10 @@ interface OrderCardProps {
 const OrderCard: React.FC<OrderCardProps> = ({
     data
 }) => {
-    const totalPrice = data.orderItems.reduce((totalPrice,item)=>(
-        totalPrice+Number(item.product.price)
-    ),0)
-
+    const totalPrice = data.orderItems.reduce((totalPrice, item) => (
+        totalPrice + Number(item.product.price)
+    ), 0)
+    const router = useRouter();
     return (
         <>
             <PreventHydration />
@@ -24,6 +27,8 @@ const OrderCard: React.FC<OrderCardProps> = ({
                     <h1 className='font-bold ' >Order Id#</h1>
                     <p  >{data.id}</p>
                 </div>
+
+
                 <div className='flex-col justify-between text-sm space-y-2' >
                     <div className='flex items-center justify-between' >
                         <h1 className='font-bold' >Ordered on</h1>
@@ -71,6 +76,14 @@ const OrderCard: React.FC<OrderCardProps> = ({
                         <h1 className='font-bold' >Total amount</h1>
                         <div> <Currency value={totalPrice} /> </div>
                     </div>
+                    {data.completed && <div className='flex w-full items-center gap-2 my-2' >
+                        <Button onClick={()=>router.push(`/orders/${data.id}/rating`)} className='ml-auto bg-transparent border  text-black hover:text-white text-xs py-0'>
+                            Provide feedback
+                            <ArrowRight size={12} />
+
+                        </Button>
+                    </div>}
+
 
 
 

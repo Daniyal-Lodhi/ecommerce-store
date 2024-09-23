@@ -71,6 +71,7 @@ interface OrderItem {
     orderId: string;
     productId: string;
     product: Product;
+    isRated:boolean
 }
 
 

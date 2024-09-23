@@ -96,7 +96,7 @@ export const MainNav: React.FC<mainNavProps> = ({
                     <Link
                         href={'/orders'} className={` hover:text-black flex items-center  font-semibold ${pathname == '/orders' ? 'text-black font-bold' : 'text-gray-500'}`} >Orders</Link>
                     <Link
-                        href={'/favlist'} className={` ${pathname == '/orders' ? 'text-black font-bold' : 'text-gray-500'} hover:text-black flex items-center font-semibold`} >Fav List</Link>
+                        href={'/favlist'} className={` ${pathname == '/favlist' ? 'text-black font-bold' : 'text-gray-500'} hover:text-black flex items-center font-semibold`} >Fav List</Link>
 
                 </div>
                 <NavbarActions />
