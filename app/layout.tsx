@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
 import ProductModalProvider from "@/providers/product-modal-provider";
 import ToastProvider from "@/providers/toast-provider";
 import ConfigureOutOfStockItem from "@/actions/ConfigureOutOfStockItem";
@@ -10,6 +9,7 @@ import getProducts from "@/actions/get-products";
 import { ClerkProvider } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import SetAuth from "@/actions/setAuth";
+import Navbar from "@/components/Navbar/navbar";
 
 const font = Urbanist({ subsets: ["latin"] });
 

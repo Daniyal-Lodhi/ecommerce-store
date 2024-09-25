@@ -4,10 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation"
 import NavbarActions from "./navbar-actions";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
-import Iconbutton from "./ui/icon-button";
-import { Separator } from "./ui/separator";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -19,7 +17,8 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import NoResultFound from "./no-result-found";
+import { Separator } from "../ui/separator";
+import Iconbutton from "../ui/icon-button";
 
 
 
@@ -123,7 +122,7 @@ export const MainNav: React.FC<mainNavProps> = ({
 
                             </div>
                             <Separator className="mt-5" />
-                            <div className="flex-col  justify-center space-y-3 mt-5" >
+                            <div className="flex-col  justify-center space-y-4 mt-5 ml-1" >
                                 <div className=" text-lg flex-col justify-center space-y-2" >
                                     <div>
                                         <Link
@@ -138,7 +137,7 @@ export const MainNav: React.FC<mainNavProps> = ({
                                                 className={`transition-transform duration-300 ${collapesed ? 'rotate-180' : ''}`}
                                             />
                                         </CollapsibleTrigger>
-                                        <CollapsibleContent>
+                                        <CollapsibleContent  >
                                             {
                                                 Array.isArray(routes) ? routes?.map((route) => (
                                                     <Link href={route.href}

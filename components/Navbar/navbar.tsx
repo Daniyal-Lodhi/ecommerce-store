@@ -1,9 +1,9 @@
 import getCategories from "@/actions/get-categories";
 import { MainNav } from "./main-nav";
-import { Container } from "./ui/container";
+import { Container } from "../ui/container";
 import Link from "next/link";
 // import NavbarActions from "./navbar-actions";
-import SigninButton from "./ui/sign-in-buton";
+import SigninButton from "./sign-in-buton";
 import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
@@ -31,7 +31,7 @@ const Navbar = async () => {
                         </div>
                         <p className="sm:text-xl font-bold text-base text-nowrap">Flash Store</p>
                     </Link>
-                    <div className="order-1 sm:order-2 sm:w-full  px-2" >
+                    <div className="order-1 sm:order-2 sm:w-full " >
                         {categories && <MainNav  data={categories} />}
                     </div>
 

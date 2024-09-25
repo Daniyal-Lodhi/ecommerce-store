@@ -1,7 +1,7 @@
 'use client'
 
 import { ShoppingBag } from "lucide-react"
-import Button from "./ui/custom-button"
+import Button from "../ui/custom-button"
 import useShoppingCart from "@/hooks/use-cart-storage"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"

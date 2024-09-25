@@ -73,7 +73,7 @@ const ProductCard: React.FC<productCardProps> = ({
         shoppingCart.addItem(product);
     }
 
-    const rating =  pathname!=='/favlist' && product.productRating.stars / product.productRating.count; // Calculate the average rating
+    const rating = pathname !== '/favlist' && product.productRating.stars / product.productRating.count; // Calculate the average rating
 
     // Create an array of 5 stars
     // const starElements = Array.from({ length: 5 }, (_, index) => {
@@ -88,7 +88,7 @@ const ProductCard: React.FC<productCardProps> = ({
             <div
                 onClick={handleClick}
                 // onClick={pathname == '/favlist' ? undefined : handleClick}
-                className="bg-white border rounded-xl p-3 group cursor-pointer space-y-4 " >
+                className="bg-white border rounded-xl p-3 group cursor-pointer space-y-1 " >
                 <div
                     onClick={handleClick}
                     // onClick={pathname === '/favlist' ? handleClick : undefined}
@@ -100,7 +100,7 @@ const ProductCard: React.FC<productCardProps> = ({
                         alt="Image"
                         className=" object-cover rounded-md aspect-square"
                     />
-                    <div className="absolute flex justify-center gap-x-6 items-center bottom-5 px-6 opacity-0 group-hover:opacity-100 w-full" >
+                    <div className="absolute hidden sm:flex justify-center gap-x-6 items-center bottom-5 px-6 opacity-0 group-hover:opacity-100 w-full" >
                         <Iconbutton
                             onclick={previewProductModal}
                             icon={<Expand
@@ -119,27 +119,28 @@ const ProductCard: React.FC<productCardProps> = ({
                     </div>
                 </div>
                 <div>
-                    <div className="flex  gap-y-2 justify-between items-start">
+                    <div className="flex mt-3  gap-y-2 justify-between items-start">
                         <div className="w-auto" >
-                            <div className="text-lg  font-semibold " >
-                                {product.name}
+                            <div className="text-base  font-semibold " >
+                                { product.name.length > 20 ? product.name.slice(0, 20) + '...' : product.name}
 
                             </div>
                             <p className="text-sm text-gray-500" >{product.category.name}</p>
                         </div>
-                        {product.quantity == 0 && <Badge title="Out of Stock" />}
+                        <div className="flex items-center gap-2 flex-nowrap flex-shrink-0">
+                            <div className="space-x-1 mt-1 flex items-center flex-nowrap w-full" >
+                                {/* {starElements} */}
+                                {pathname !== '/favlist' && <RatingStars
+                                    stars={product.productRating.stars || 0}
+                                    count={product.productRating.count || 0}
+                                    showCount={false}
+                                />}
+                            </div>
 
-                    </div>
-                    <div className="flex items-center gap-2 ">
-                        <div className="space-x-1 flex items-center " >
-                        {/* {starElements} */}
-                        { pathname !=='/favlist' && <RatingStars 
-                        stars={product.productRating.stars || 0}
-                        count={product.productRating.count || 0}
-                        />}
                         </div>
-                        
                     </div>
+                    
+                    {product.quantity == 0 && <Badge title="Out of Stock" />}
                 </div>
                 {/* Price */}
                 <div>

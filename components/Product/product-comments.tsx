@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react'
-import { ChevronDown, ChevronDownIcon, Divide, Star } from 'lucide-react';
+import { ChevronDownIcon, Star } from 'lucide-react';
+import { Separator } from '../ui/separator';
 
 interface productCommentsProps {
     data: Rating
@@ -24,7 +25,8 @@ const ProductComments: React.FC<productCommentsProps> = ({
     return (
         <>
             <div>
-                <h2 className="text-2xl  font-bold text-gray-800" >Feedback</h2>
+                <Separator className='mb-4' />
+                <h2 className="text-2xl  font-bold text-gray-800" >Rating & reviews</h2>
                 <div className="flex items-center space-x-4 sm:mt-4 mt-1 " >
                     <div className="flex items-center space-x-2" >
                         <div className="flex items-center space-x-1" >
@@ -33,7 +35,6 @@ const ProductComments: React.FC<productCommentsProps> = ({
                         </div>
                     </div>
                     <div className="flex items-center space-x-2" >
-                        <span className="text-2xl font-bold text-gray-800" >{ }</span>
                         <div className="flex items-center space-x-1" >
                             <span className="text-black text-xl font-bold" >{avgRating}</span>
                             <span className="text-gray-500" >Average rating</span>
