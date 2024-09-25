@@ -31,7 +31,7 @@ const Navbar = async () => {
                         </div>
                         <p className="sm:text-xl font-bold text-base text-nowrap">Flash Store</p>
                     </Link>
-                    <div className="order-1 sm:order-2 sm:w-full " >
+                    <div className="order-1 sm:order-2 sm:w-full sm:px-2 " >
                         {categories && <MainNav  data={categories} />}
                     </div>
 
