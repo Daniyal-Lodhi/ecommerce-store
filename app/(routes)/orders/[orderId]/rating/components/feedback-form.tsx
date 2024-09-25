@@ -52,20 +52,29 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ productId }) => {
 
   const onSubmit = async (data: FeedbackFormSchema) => {
     setLoading(true);
-    if(!(user?.firstName) || !(user?.lastName)){
-      throw new Error("sign in required")
-    }
+    // if(!(user){
+    //   throw new Error("sign in required")
+    // }
     const capitalize = (str:string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    let username = undefined;
+    if(user){
+      if(user.firstName){
+        username = capitalize(user.firstName)
+        if(user.lastName){
+          username = capitalize(user.lastName)
+        }
+      }else{
+        username = user.primaryEmailAddress?.emailAddress
+      }
 
+    }
     try {
       let ratingData = {
         productId,
         stars: data.stars,
         comment: data.comment,
         userId,
-        username: user.firstName && user.lastName 
-        ? `${capitalize(user.firstName)} ${capitalize(user.lastName)}` 
-        : undefined
+        username: username
       }
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/orders/${params.orderId}/rating`, ratingData)
       // console.log(ratingData)

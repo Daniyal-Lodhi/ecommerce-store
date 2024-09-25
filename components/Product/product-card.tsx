@@ -2,20 +2,21 @@
 
 import Image from "next/image";
 import React, { MouseEventHandler, useState } from "react";
-import Iconbutton from "./icon-button";
-import { Expand, Heart, ShoppingCart } from "lucide-react";
+import Iconbutton from "../ui/icon-button";
+import { Expand, Heart, ShoppingCart, Star } from "lucide-react";
 import preventHydration from "../hydration-prevention";
-import Currency from "./currency";
+import Currency from "../ui/currency";
 import { usePathname, useRouter } from "next/navigation";
 import PreviewModal from "../preview-modal";
 import usePreviewModal from "@/hooks/use-preview-modal";
 import useShoppingCart from "@/hooks/use-cart-storage";
-import Badge from "./badge";
+import Badge from "../ui/badge";
 import PreventHydration from "../hydration-prevention";
-import { Button } from "./button";
+import { Button } from "../ui/button";
 import { useAuth } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import axios from "axios";
+import RatingStars from "./rating-stars";
 
 interface productCardProps {
     product: Product
@@ -70,8 +71,16 @@ const ProductCard: React.FC<productCardProps> = ({
         event.stopPropagation();
 
         shoppingCart.addItem(product);
-
     }
+
+    const rating =  pathname!=='/favlist' && product.productRating.stars / product.productRating.count; // Calculate the average rating
+
+    // Create an array of 5 stars
+    // const starElements = Array.from({ length: 5 }, (_, index) => {
+    //     const fillColor = index < Math.round(rating) ? 'yellow' : 'gray'; // Fill stars based on the rating
+    //     return <Star    key={index} size={15}   fill={fillColor} color={fillColor} />;
+    // });
+
     return (
         <>
             <PreventHydration />
@@ -83,7 +92,7 @@ const ProductCard: React.FC<productCardProps> = ({
                 <div
                     onClick={handleClick}
                     // onClick={pathname === '/favlist' ? handleClick : undefined}
-                    className="aspect-square relative rounded-xl bg-gray-100" >
+                    className="aspect-square  relative rounded-xl bg-gray-100" >
                     <Image
                         src={product?.images?.[0]?.imageUrl}
                         fill
@@ -110,9 +119,9 @@ const ProductCard: React.FC<productCardProps> = ({
                     </div>
                 </div>
                 <div>
-                    <div className="flex flex-wrap gap-y-2 justify-between items-start">
-                        <div className="w-full" >
-                            <div className="text-lg font-semibold " >
+                    <div className="flex  gap-y-2 justify-between items-start">
+                        <div className="w-auto" >
+                            <div className="text-lg  font-semibold " >
                                 {product.name}
 
                             </div>
@@ -120,6 +129,16 @@ const ProductCard: React.FC<productCardProps> = ({
                         </div>
                         {product.quantity == 0 && <Badge title="Out of Stock" />}
 
+                    </div>
+                    <div className="flex items-center gap-2 ">
+                        <div className="space-x-1 flex items-center " >
+                        {/* {starElements} */}
+                        { pathname !=='/favlist' && <RatingStars 
+                        stars={product.productRating.stars || 0}
+                        count={product.productRating.count || 0}
+                        />}
+                        </div>
+                        
                     </div>
                 </div>
                 {/* Price */}

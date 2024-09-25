@@ -25,11 +25,12 @@ const ProductGallery:React.FC<ProductGalleryProps> = ({
             {
                 images?.map((image)=>(
                     <TabPanel key={image.id} >
-                        <div className=" relative aspect-square sm:rounded-lg w-full h-full overflow-hidden " >
+                        <div className=" relative aspect-square sm:rounded-lg w-[full] h-full overflow-hidden " >
                             <Image 
                             src={image.imageUrl}
                             alt="Image"
                             fill
+                            sizes="100%"
                             className="object-cover object-center"
                             />
                         </div>

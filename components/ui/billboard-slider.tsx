@@ -28,14 +28,14 @@ const BillboardSlider: React.FC<billboardSliderProps> = ({
 
 
     return (
-        <div className="p-4 sm:p-6 lg:p-8 overflow-hidden bg-cover  " >
+        Array.isArray(data) &&  <div className="p-4 sm:p-6 lg:p-8 overflow-hidden bg-cover  " >
             <Carousel
                 plugins={[plugin.current]}
                 onMouseEnter={plugin.current.stop}
                 onMouseLeave={plugin.current.reset}
                 className="w-full mx-auto">
                 <CarouselContent>
-                    {data.map((billboard) => (
+                    { Array.isArray(data) && data.map((billboard) => (
                         <CarouselItem key={billboard.id}>
                             <div className="  rounded-xl relative aspect-square md:aspect-[3/1] overflow-hidden object-cover bg-cover"
                                 style={{ backgroundImage: `url(${billboard.imageUrl})` }}

@@ -35,7 +35,7 @@ const OrderPage = async ({ searchParams }:
 
 
     return (
-        <Container>
+        Array.isArray(orders) ? <Container>
             <CheckSignin />
             <div className='p-4 sm:p-6 lg:p-8' >
                 <div>
@@ -45,7 +45,7 @@ const OrderPage = async ({ searchParams }:
                 <div className='sm:grid sm:grid-cols-4 gap-4 flex flex-col  mt-6' >
                     <OrderFilters />
                     <div className='sm:col-span-3 ' >
-                        {orders && orders.length > 0 ? <div className='grid grid-cols-1 ' >
+                        {orders.length > 0 ? <div className='grid grid-cols-1 ' >
                             {
                                 orders && orders.map((order, index) => (
                                     <div key={order.id} className=' flex flex-col justify-center' >
@@ -54,7 +54,7 @@ const OrderPage = async ({ searchParams }:
                                     </div>
                                 ))
                             }
-                        </div>: <div className='w-full flex items-center justify-center' >
+                        </div> : <div className='w-full flex items-center justify-center' >
                             You have not ordered anything yet.
                         </div>
                         }
@@ -66,7 +66,10 @@ const OrderPage = async ({ searchParams }:
 
             </div>
 
-        </Container>
+        </Container> :
+            <div className="text-center mx-auto text-3xl font-bold my-10" >
+                Some error occured, Could not load the page
+            </div>
     )
 }
 

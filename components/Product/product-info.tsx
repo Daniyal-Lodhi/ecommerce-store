@@ -1,14 +1,15 @@
 'use client'
 import React, { useState } from 'react'
-import Currency from './currency'
+import Currency from '../ui/currency'
 import { Heart, ShoppingCart } from 'lucide-react'
-import { Button } from './button'
+import { Button } from '../ui/button'
 import useShoppingCart from '@/hooks/use-cart-storage'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import PreventHydration from '../hydration-prevention'
 import axios from 'axios'
 import { useAuth } from '@clerk/nextjs'
 import toast from 'react-hot-toast'
+import RatingStars from './rating-stars'
 
 interface ProductInfoProps {
     product: Product
@@ -17,40 +18,45 @@ interface ProductInfoProps {
 const ProductInfo: React.FC<ProductInfoProps> = ({
     product
 }) => {
-    const shoppingCart = useShoppingCart();
-    const [isLiked, setIsLiked] = useState(product.liked ? true : false);
+    const params = useParams();
     const router = useRouter();
+    const pathname = usePathname();
+    const shoppingCart = useShoppingCart();
+    const { userId } = useAuth();
+
+
+    const [isLiked, setIsLiked] = useState(product.liked ? true : false);
     const addToCart = () => {
         shoppingCart.addItem(product);
     }
-    const { userId } = useAuth();
     const handletoggleFav = async () => {
         try {
             if (!userId) {
                 router.push(`/sign-in?redirectUrl=${window.location.href}`)
-            }
-            else {
-                setIsLiked(!isLiked)
-                isLiked ? toast.success("Item removed from favourites") : toast.success("Item added to favourites")
-                // throw new Error()
-                const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${params.productId}/${userId}`
-                console.log("send at server :", !isLiked)
-                await axios.post(url, { liked: !isLiked })
+            } else {
+                setIsLiked(!isLiked);
+                isLiked ? toast.success("Item removed from favourites") : toast.success("Item added to favourites");
+                
+                const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${params.productId}/${userId}`;
+                // console.log("send at server :", !isLiked);
+    
+                await axios.post(url, { liked: !isLiked });
+                
+                // Log the product object after the API call
+                // console.log("Product after API call:", product);
+    
                 router.refresh();
             }
-
-
         } catch (error) {
-            setIsLiked(isLiked)
-            toast.error(`Some error occurred while ${isLiked ? "removing" : "adding"} the item.`)
+            setIsLiked(isLiked);
+            toast.error(`Some error occurred while ${isLiked ? "removing" : "adding"} the item.`);
             console.log(error);
-
-        } finally {
-            console.log(isLiked)
         }
     }
+    
+    // console.log(product?.productRating?.count)
+    // console.log(product?.productRating?.stars)
 
-    const params = useParams();
 
     return (
         <div  >
@@ -66,16 +72,23 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
                 </div>}
             </div>
 
-            <div className='mt-2 sm:mt-5 font-semibold text-xl' >
+            <div className='mt-2 sm:mt-2 font-semibold text-xl' >
                 <Currency value={product?.price} />
+            </div>
+            <div className='mt-2 sm:mt-2 font-semibold text-xl   ' >
+                { <RatingStars
+                    count={product?.productRating?.count || 0}
+                    stars={product?.productRating?.stars || 0}
+                />}
             </div>
             <hr className='my-5' />
             <div className={`flex flex-col justify-center  ${params.productId ? 'space-y-4' : "space-y-2"}`} >
                 <div className='flex items-center justify-start  gap-x-3 ' >
-                    <div className={`text-gray-600 text-sm font-semibold`} >{product?.description}</div>
+                    {pathname.includes('product') && <div className={`text-gray-600 text-sm md:w-[95%]`} >{product?.description}</div>}
                 </div>
                 <div className='flex items-center justify-start  gap-x-3 ' >
                     <p className='font-semibold' >Color:</p>
+                    <p>{product.color.name}</p>
                     <div className='h-6 w-6 rounded-full' style={{ backgroundColor: product?.color.value }} ></div>
                 </div>
                 <div className='flex items-center justify-start  gap-x-3 ' >

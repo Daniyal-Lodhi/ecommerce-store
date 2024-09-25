@@ -10,7 +10,6 @@ import getProducts from "@/actions/get-products";
 import { ClerkProvider } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import SetAuth from "@/actions/setAuth";
-import LoaderProvider from "./loading";
 
 const font = Urbanist({ subsets: ["latin"] });
 
@@ -30,7 +29,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const outOfStockProducts: (Product[] | null) = await getProducts({ quantity: 0 });
-  const outOfStockProductsId = outOfStockProducts?.map((product) => product.id);
+  const outOfStockProductsId =  outOfStockProducts && Array.isArray(outOfStockProducts) && outOfStockProducts.map((product) => product.id);
   const { userId } = auth();
   // console.log(userId)
   return (
@@ -43,7 +42,7 @@ export default async function RootLayout({
           {/* <LoaderProvider/> */}
           {children}
           <Footer />
-          {outOfStockProductsId && <ConfigureOutOfStockItem productIds={outOfStockProductsId} />}
+          {outOfStockProductsId && Array.isArray(outOfStockProducts) && <ConfigureOutOfStockItem productIds={outOfStockProductsId} />}
           <SetAuth userId={userId} />
         </body>
       </html>

@@ -18,17 +18,21 @@ const FavPage = async () => {
   if (!userId) {
     redirect(`/sign-in?redirectUrl=/favlist`)
   }
-  let favProducts: (Favourites[] | Product[] | null) = await getFavouriteProducts();
-  favProducts = favProducts && favProducts.map((item) => (item.product));
+  const favProducts: (Favourites[] | Product[] | null) = await getFavouriteProducts();
+  const favProductsItems = Array.isArray(favProducts) && favProducts.map((item) => (item.product));
   return (
     <div className='p-4 sm:p-6 lg:p-8' >
-      {favProducts ? <div>
-        {favProducts && <ProductList data={favProducts} title='Favourite products' />}
+      {Array.isArray(favProductsItems) ? (favProductsItems.length != 0 ? <div>
+        <ProductList data={favProductsItems} title='Favourite products' />
       </div> :
+        <div className='flex justify-center items-center font-bold' >You have not added any products in favourite list yet.</div>
+      )
+        :
         <div className="text-center mx-auto text-3xl font-bold my-10" >
           Some error occured, Could not load the page
         </div>
       }
+
     </div>
   )
 }

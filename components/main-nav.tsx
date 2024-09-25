@@ -19,6 +19,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import NoResultFound from "./no-result-found";
 
 
 
@@ -36,7 +37,7 @@ export const MainNav: React.FC<mainNavProps> = ({
     const [collapesed, setCollapesed] = useState(false);
 
 
-    const routes = data?.map((route) => (
+    const routes = Array.isArray(data) && data.map((route) => (
         {
             label: route.name,
             isActive: pathname === `/category/${route.id}`,
@@ -72,7 +73,7 @@ export const MainNav: React.FC<mainNavProps> = ({
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
 
-                                {routes?.map((route) => (
+                                { Array.isArray(routes)  ? routes.map((route) => (
                                     <Link
                                         href={route.href}
                                         key={route.href}
@@ -88,7 +89,12 @@ export const MainNav: React.FC<mainNavProps> = ({
                           `} >
                                         <DropdownMenuItem className="cursor-pointer" >{route.label}</DropdownMenuItem>
                                     </Link>
-                                ))}
+                                )
+
+                                ) : <div className="w-auto text-gray-600 text-sm" >
+                                    No categoried found
+                                </div>
+                                }
 
                             </DropdownMenuContent>
                         </DropdownMenu>
@@ -134,7 +140,7 @@ export const MainNav: React.FC<mainNavProps> = ({
                                         </CollapsibleTrigger>
                                         <CollapsibleContent>
                                             {
-                                                routes?.map((route) => (
+                                                Array.isArray(routes) ? routes?.map((route) => (
                                                     <Link href={route.href}
                                                         key={route.href}
                                                         onClick={onClose}
@@ -150,7 +156,10 @@ export const MainNav: React.FC<mainNavProps> = ({
                                                         <Separator className="my-1" />
                                                         {route.label}
                                                     </Link>
-                                                ))
+                                                )):
+                                                <div className="w-auto text-gray-600 text-sm" >
+                                    No categoried found
+                                </div>
                                             }
                                         </CollapsibleContent>
                                     </Collapsible>

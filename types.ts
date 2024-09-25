@@ -30,7 +30,8 @@ interface Product {
     isFeatured: boolean
     price: number | string
     quantity: number | string
-    liked: boolean | undefined
+    liked: boolean | undefined,
+    productRating:Rating
 }
 
 interface Category {
@@ -82,4 +83,16 @@ interface Favourites {
     product: Product
     userId: boolean
     liked: boolean
+}
+
+interface comments{
+    stars:number
+    comment:string
+    commentedBy:string
+}
+
+interface Rating{
+    stars:number,
+    comments:comments[],
+    count:number,
 }

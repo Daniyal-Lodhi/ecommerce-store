@@ -1,7 +1,7 @@
 import usePreviewModal from '@/hooks/use-preview-modal'
 import Modal from './ui/modal';
-import ProductGallery from './gallery/product-gallery';
-import ProductInfo from './ui/product-info';
+import ProductGallery from './Product/gallery/product-gallery';
+import ProductInfo from './Product/product-info';
 
 
 const PreviewModal = () => {
