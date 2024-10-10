@@ -33,11 +33,11 @@ const ProductPage: React.FC<ProductPageProps> = async ({
 
             <Container>
                 <div className='px-4 sm:px-6 py-10 lg:px-8' >
-                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5  gap-x-4 lg::gap-x-8' >
-                        <div className='md:col-span-1 lg:col-span-2 ' >
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7  gap-x-4 lg::gap-x-8' >
+                        <div className='md:col-span-1 lg:col-span-3 ' >
                             {product && <ProductGallery images={product?.images} />}
                         </div>
-                        <div className='md:col-span-1 lg:col-span-3 mt-6 sm:px-0 md:mt-0'>
+                        <div className='md:col-span-1 lg:col-span-4 mt-6 sm:px-0 md:mt-0'>
                             {product && <ProductInfo product={product} />}
                         </div>
                     </div>

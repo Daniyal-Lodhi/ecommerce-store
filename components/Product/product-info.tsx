@@ -59,7 +59,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
 
 
     return (
-        <div  >
+        <div className='ml-1' >
             <PreventHydration />
 
             <div className='flex items-center justify-between w-full' >

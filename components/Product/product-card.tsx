@@ -133,7 +133,7 @@ const ProductCard: React.FC<productCardProps> = ({
                                 {pathname !== '/favlist' && <RatingStars
                                     stars={product.productRating.stars || 0}
                                     count={product.productRating.count || 0}
-                                    showCount={false}
+                                    // showCount={false}
                                 />}
                             </div>
 

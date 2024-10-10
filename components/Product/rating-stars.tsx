@@ -21,9 +21,7 @@ const RatingStars: React.FC<RatingStarsProps> = ({
         rating = stars / count; // Calculate the average rating
     }
 
-    // Create an array of 5 stars
-    // console.log("stars = ",stars)
-    // console.log("count = ",count)
+    
     const starElements = Array.from({ length: 5 }, (_, index) => {
         const fillColor = index < Math.round(rating) ? 'gold' : 'gray'; // Fill stars based on the rating
         return <Star key={index} size={15} fill={fillColor} color={fillColor} />;

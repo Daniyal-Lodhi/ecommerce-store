@@ -30,13 +30,13 @@ const ProductComments: React.FC<productCommentsProps> = ({
                 <div className="flex items-center space-x-4 sm:mt-4 mt-1 " >
                     <div className="flex items-center space-x-2" >
                         <div className="flex items-center space-x-1" >
-                            <span className="text-gray-black text-xl font-bold " >{data.count}</span>
+                            <span className="text-gray-black text-xl font-bold">{data.count}</span>
                             <span className="text-gray-500" >Reviews</span>
                         </div>
                     </div>
                     <div className="flex items-center space-x-2" >
                         <div className="flex items-center space-x-1" >
-                            <span className="text-black text-xl font-bold" >{avgRating}</span>
+                            <span className="text-black text-xl font-bold" >{avgRating?avgRating:0}</span>
                             <span className="text-gray-500" >Average rating</span>
                         </div>
 
@@ -54,11 +54,15 @@ const ProductComments: React.FC<productCommentsProps> = ({
                     {data.comments.map((comment, index) => (
                         comment.comment && <div key={index} className={`w-full py-5 border-b`} >
                             <div className='flex items-center gap-3' >
-                                <span className=' font-bold' >{comment.commentedBy}</span>
+                                <span className=' font-bold' >
+                                    {
+                                        comment.commentedBy.lastIndexOf('@')==-1?comment.commentedBy:comment.commentedBy.substring(0, comment.commentedBy.lastIndexOf('@'))
+                                    }
+                                </span>
                                 <div className=' flex items-center space-x-0' >
                                     <StarElements rating={comment.stars} />
                                 </div>
-                                {5}
+                                {comment.stars}
                             </div>
                             <div>
                                 {comment.comment}
