@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation"
 import NavbarActions from "./navbar-actions";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import {
     DropdownMenu,
@@ -23,17 +23,23 @@ import Iconbutton from "../ui/icon-button";
 
 
 interface mainNavProps {
-    data: Category[]
+    data: Category[],
+    searchBarData:Product[]
 }
 
 export const revalidate = false;
 
 export const MainNav: React.FC<mainNavProps> = ({
-    data
+    data,
+    searchBarData,
 }) => {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const [collapesed, setCollapesed] = useState(false);
+
+    useEffect(()=>{
+        setOpen(false)
+    },[pathname])
 
 
     const routes = Array.isArray(data) && data.map((route) => (
@@ -72,7 +78,7 @@ export const MainNav: React.FC<mainNavProps> = ({
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
 
-                                { Array.isArray(routes)  ? routes.map((route) => (
+                                {Array.isArray(routes) ? routes.map((route) => (
                                     <Link
                                         href={route.href}
                                         key={route.href}
@@ -102,9 +108,10 @@ export const MainNav: React.FC<mainNavProps> = ({
                         href={'/orders'} className={` hover:text-black flex items-center  font-semibold ${pathname == '/orders' ? 'text-black font-bold' : 'text-gray-500'}`} >Orders</Link>
                     <Link
                         href={'/favlist'} className={` ${pathname == '/favlist' ? 'text-black font-bold' : 'text-gray-500'} hover:text-black flex items-center font-semibold`} >Fav List</Link>
+                        {/* <SearchBar/> */}
 
                 </div>
-                <NavbarActions />
+                <NavbarActions searchBarData={searchBarData} />
             </div>
             <div className="flex sm:hidden z-[50] relative items-center" >
                 <button onClick={onOpen} className="p-2 m-0 border rounded-md" >
@@ -117,7 +124,7 @@ export const MainNav: React.FC<mainNavProps> = ({
                             <div className='flex mt-4 mb-2 items-center justify-between ' >
                                 <Iconbutton className="rounded-md mb-1 border-none shadow-md" onclick={onClose} icon={<X size='15' />} />
                                 <div  >
-                                    <NavbarActions onClose={onClose} />
+                                    <NavbarActions onClose={onClose} searchBarData={searchBarData} />
                                 </div>
 
                             </div>
@@ -155,10 +162,10 @@ export const MainNav: React.FC<mainNavProps> = ({
                                                         <Separator className="my-1" />
                                                         {route.label}
                                                     </Link>
-                                                )):
-                                                <div className="w-auto text-gray-600 text-sm" >
-                                    No categoried found
-                                </div>
+                                                )) :
+                                                    <div className="w-auto text-gray-600 text-sm" >
+                                                        No categoried found
+                                                    </div>
                                             }
                                         </CollapsibleContent>
                                     </Collapsible>

@@ -3,12 +3,9 @@
 import Image from "next/image";
 import React, { MouseEventHandler, useState } from "react";
 import Iconbutton from "../ui/icon-button";
-import { Expand, Heart, ShoppingCart, Star } from "lucide-react";
-import preventHydration from "../hydration-prevention";
+import { Expand, Heart, ShoppingCart} from "lucide-react";
 import Currency from "../ui/currency";
-import { usePathname, useRouter } from "next/navigation";
-import PreviewModal from "../preview-modal";
-import usePreviewModal from "@/hooks/use-preview-modal";
+import { usePathname, useRouter } from "next/navigation";import usePreviewModal from "@/hooks/use-preview-modal";
 import useShoppingCart from "@/hooks/use-cart-storage";
 import Badge from "../ui/badge";
 import PreventHydration from "../hydration-prevention";
@@ -19,11 +16,15 @@ import axios from "axios";
 import RatingStars from "./rating-stars";
 
 interface productCardProps {
-    product: Product
+    product: Product,
+    showRating?:boolean,
+    showActionIcons?:boolean,
 }
 
 const ProductCard: React.FC<productCardProps> = ({
-    product
+    product,
+    showRating = true,
+    showActionIcons=true,
 }) => {
     const pathname = usePathname();
     const router = useRouter();
@@ -100,7 +101,7 @@ const ProductCard: React.FC<productCardProps> = ({
                         alt="Image"
                         className=" object-cover rounded-md aspect-square"
                     />
-                    <div className="absolute hidden sm:flex justify-center gap-x-6 items-center bottom-5 px-6 opacity-0 group-hover:opacity-100 w-full" >
+                    { showActionIcons && <div className="absolute hidden sm:flex justify-center gap-x-6 items-center bottom-5 px-6 opacity-0 group-hover:opacity-100 w-full" >
                         <Iconbutton
                             onclick={previewProductModal}
                             icon={<Expand
@@ -116,7 +117,7 @@ const ProductCard: React.FC<productCardProps> = ({
                                 size={20}
                                 className="text-gray-600"
                             />} />
-                    </div>
+                    </div>}
                 </div>
                 <div>
                     <div className="flex mt-3  gap-y-2 justify-between items-start">
@@ -130,7 +131,7 @@ const ProductCard: React.FC<productCardProps> = ({
                         <div className="flex items-center gap-2 flex-nowrap flex-shrink-0">
                             <div className="space-x-1 mt-1 flex items-center flex-nowrap w-full" >
                                 {/* {starElements} */}
-                                {pathname !== '/favlist' && <RatingStars
+                                {pathname !== '/favlist' && showRating && <RatingStars
                                     stars={product.productRating.stars || 0}
                                     count={product.productRating.count || 0}
                                     // showCount={false}

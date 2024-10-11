@@ -5,13 +5,16 @@ import Button from "../ui/custom-button"
 import useShoppingCart from "@/hooks/use-cart-storage"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
+import SearchBar from "./search-bar"
 
 interface NavbarActionsProps {
-    onClose?: () => void
+    onClose?: () => void,
+    searchBarData:Product[]
 }
 
 const NavbarActions: React.FC<NavbarActionsProps> = ({
     onClose,
+    searchBarData,
 }) => {
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
@@ -28,6 +31,7 @@ const NavbarActions: React.FC<NavbarActionsProps> = ({
     return (
         <div className="flex justify-between items-center " >
             <div className="flex items-center gap-x-4">
+                <SearchBar searchBarData={searchBarData} />
                 {mounted && <Button onClick={onNavigate}  >
                     <ShoppingBag
                         size={20}
